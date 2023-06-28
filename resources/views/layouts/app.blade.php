@@ -1,3 +1,10 @@
+@php
+$hasContentStyle = isset($contentStyle);
+$hasContentScriptHead = isset($contentScriptHead);
+$hasContentScript = isset($contentScript);
+@endphp
+
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -16,6 +23,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    @if ($hasContentStyle)
+    {{$contentStyle}}
+    @endif
+    @if ($hasContentScriptHead)
+    {{$contentScriptHead}}
+    @endif
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js','resources/flowbit/flowbit.js'])
@@ -42,6 +55,10 @@
             @include('layouts.footer')
         </div>
     </div>
+
+    @if ($hasContentScript)
+    {{$contentScript}}
+    @endif
 </body>
 
 </html>

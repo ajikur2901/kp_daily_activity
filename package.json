@@ -12,11 +12,16 @@
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^0.7.5",
         "postcss": "^8.4.6",
+        "sass": "^1.63.4",
         "tailwindcss": "^3.1.0",
         "vite": "^4.0.0"
     },
     "dependencies": {
         "apexcharts": "^3.41.0",
-        "flowbite": "^1.6.5"
+        "devextreme": "^23.1.3",
+        "devextreme-aspnet-data": "^2.9.2",
+        "devextreme-aspnet-data-nojquery": "^2.9.2",
+        "flowbite": "^1.6.5",
+        "jquery": "^3.7.0"
     }
 }
