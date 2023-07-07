@@ -43,4 +43,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    const RULES = [
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
+        'level' => ['required']
+    ];
+
+    const NICE_NAMES = [
+        'name' => 'Nama',
+        'email' => 'Email',
+        'password' => 'Password',
+        'last_login' => 'Last Login',
+        'disabled' => 'Disabled'
+    ];
+
+    public static function updateRules($user)
+    {
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'password' => ['string', 'min:8', 'confirmed', 'nullable'],
+            'level' => ['required']
+        ];
+    }
 }

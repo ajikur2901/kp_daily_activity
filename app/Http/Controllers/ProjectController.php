@@ -42,34 +42,27 @@ class ProjectController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Project $project)
     {
-        return view('project.edit');
+        return view('project.edit', [
+            'project' => $project
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Project $project)
     {
         $request->validate([
-            'kode' => 'required|max:255|unique:project,kode,' . $id,
+            'kode' => 'required|max:255|unique:project,kode,' . $project->id,
             'nama' => 'required',
             'client' => 'required',
         ]);
 
         try {
-            $project = Project::findOrFail($id);
             $project->update($request->all());
             return redirect()
                 ->route('project.index')
@@ -84,8 +77,16 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project)
     {
-        //
+        if ($project->delete()) {
+            return redirect()
+                ->route('project.index')
+                ->with('success', 'Project has been deleted successfully.');
+        } else {
+            return redirect()
+                ->route('project.index')
+                ->with('failed', 'Project delete failed.');
+        }
     }
 }

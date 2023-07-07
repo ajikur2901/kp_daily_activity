@@ -1,4 +1,7 @@
-@props(['value'])
+@props([
+    'value',
+    'theme' => 'default'
+    ])
 @php
     $themes = [
         'default' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
@@ -6,6 +9,6 @@
         'error' => 'block mb-2 text-sm font-medium text-red-700 dark:text-red-500'
     ]
 @endphp
-<label {{ $attributes->merge(['class' => $themes['default']]) }}>
+<label {{ $attributes->merge(['class' => $themes[$theme]]) }}>
     {{ $value ?? $slot }}
 </label>

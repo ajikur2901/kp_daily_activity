@@ -1,77 +1,90 @@
-@extends('layouts.app')
 
-@section('content')
-<!-- Page header -->
-<div class="page-header d-print-none">
-    <div class="container-xl">
-        <div class="row g-2 align-items-center">
-            <div class="col">
-                <h2 class="page-title">
-                    Edit Project
-                </h2>
-            </div>
+@php
+$breadcrumb = [
+[
+'nama' => 'Project',
+'url' => '#'
+],
+[
+'nama' => 'Edit Project',
+'url' => '#'
+],
+]
+@endphp
+<x-app-layout>
+    <x-layouts.header>
+        <x-slot:title>
+            Edit Project
+        </x-slot:title>
+        <x-slot:breadcrumb>
+            <x-layouts.breadcrumb :items="$breadcrumb" />
+        </x-slot:breadcrumb>
+        <x-slot:buttons>
+            <x-buttons.a :url=" route('project.index')" :text="'Kembali'" :theme="'red'" />
+        </x-slot:buttons>
+    </x-layouts.header>
+    <div class=" p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        @if ($message = Session::get('error'))
+        <div class="alert alert-warning">
+            <p>{{ $message }}</p>
         </div>
-    </div>
-</div>
-<!-- Page body -->
-<div class="page-body">
-    <div class="container-xl">
-        <div class="card">
-            <div class="card-header">
-                <a href="{{URL::to('projects')}}" class="btn btn-danger">
-                    <span class="bi bi-arrow-left-circle"></span> Kembali
-                </a>
-            </div>
-            <div class="card-body">
-                @if ($message = Session::get('error'))
-                <div class="alert alert-warning">
-                    <p>{{ $message }}</p>
-                </div>
-                @endif
-                @if ($message = Session::get('success'))
-                <div class="alert alert-success">
-                    <p>{{ $message }}</p>
-                </div>
-                @endif
-                <form method="POST" action="{{ route('projects.update',['project' => $project]) }}">
-                    @method('PATCH')
-                    @csrf
-
-                    <div class="mb-3">
-                        <label for="kode" class="form-label">Kode</label>
-                        <input type="text" class="form-control  @error('kode') is-invalid @enderror" placeholder="kode"
-                            name="kode" value="{{ $project->kode }}" autocomplete="off">
-                        @error('kode')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="nama" class="form-label">Nama</label>
-                        <input type="text" class="form-control  @error('nama') is-invalid @enderror" placeholder="nama"
-                            name="nama" value="{{ $project->nama }}" autocomplete="off">
-                        @error('nama')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="client" class="form-label">Client</label>
-                        <input type="text" class="form-control  @error('client') is-invalid @enderror"
-                            placeholder="client" name="client" value="{{ $project->client }}" autocomplete="off">
-                        @error('client')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-
-                    <button class="btn btn-primary shadow-lg mt-5">Simpan</button>
-                </form>
-            </div>
+        @endif
+        @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
         </div>
+        @endif
+        <form method="POST" action="{{ route('project.update',['project' => $project]) }}">
+            @csrf
+            @method('PATCH')
+            <div class="mb-3">
+                @php
+                if($errors->has('kode')){
+                $themeKode = "error";
+                }else{
+                $themeKode = "default";
+                }
+                @endphp
+                <x-forms.input-label for="kode" :theme="$themeKode" :value="'Kode'" />
+                <x-forms.text-input type="text" placeholder="kode" name="kode" value="{{ $project->kode }}"
+                    autocomplete="off" :theme="$themeKode" />
+                @error('kode')
+                <x-forms.input-error messages="{{ $message }}" />
+                @enderror
+            </div>
+            <div class="mb-3">
+                @php
+                if($errors->has('nama')){
+                $themeNama = "error";
+                }else{
+                $themeNama = "default";
+                }
+                @endphp
+                <x-forms.input-label for="nama" :theme="$themeNama" :Value="'Nama'" />
+                <x-forms.text-input type="text" placeholder="nama" name="nama" value="{{ $project->nama }}"
+                    autocomplete="off" :theme="$themeNama" />
+
+                @error('nama')
+                <x-forms.input-error messages="{{ $message }}" />
+                @enderror
+            </div>
+            <div class="mb-3">
+                @php
+                if($errors->has('client')){
+                $themeClient = "error";
+                }else{
+                $themeClient = "default";
+                }
+                @endphp
+                <x-forms.input-label for="client" :theme="$themeClient" :value="'Client'" />
+                <x-forms.text-input placeholder="client" name="client" value="{{ $project->client }}" autocomplete="off"
+                    :theme="$themeClient" />
+                @error('client')
+                <x-forms.input-error messages="{{ $message }}" />
+                @enderror
+            </div>
+
+            <x-buttons.button type="submit" :text="'Simpan'" />
+        </form>
     </div>
-</div>
-@endsection
+</x-app-layout>

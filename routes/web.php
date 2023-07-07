@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('activity');
 });
 
 Route::get('/dashboard', function () {
@@ -36,16 +36,29 @@ Route::middleware('auth')->group(function () {
         ->name('activity.start');
     Route::get('activity/{activity}/finish', [App\Http\Controllers\ActivityController::class, 'finish'])
         ->name('activity.finish');
+    Route::get('activity/{activity}/delete', [App\Http\Controllers\ActivityController::class, 'destroy'])
+        ->name('activity.delete');
 
-    Route::resources([
-        'user' => UserController::class,
-        'project' => ProjectController::class,
-        'activity' => ActivityController::class
-    ]);
+    Route::get('user/{user}/delete', [App\Http\Controllers\UserController::class, 'destroy'])
+        ->name('user.delete');
+
+    Route::get('project/{project}/delete', [App\Http\Controllers\ProjectController::class, 'destroy'])
+        ->name('project.delete');
+
+    Route::resources(
+        [
+            'user' => UserController::class,
+            'project' => ProjectController::class,
+            'activity' => ActivityController::class
+        ],
+        [
+            'except' => ['show', 'destroy']
+        ]
+    );
 
     Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'index'])->name('timeline.index');
-    Route::get('/timeline/activity', [App\Http\Controllers\TimelineController::class, 'activity'])
-        ->name('timeline.activity');
+    Route::post('/timeline/project', [App\Http\Controllers\TimelineController::class, 'project'])
+        ->name('timeline.project');
 });
 
 require __DIR__ . '/auth.php';

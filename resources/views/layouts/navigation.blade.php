@@ -291,7 +291,7 @@
                             id="user-menu-button-2" aria-expanded="false" data-dropdown-toggle="dropdown-2">
                             <span class="sr-only">Open user menu</span>
                             <img class="w-8 h-8 rounded-full"
-                                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                                src="{{ asset('static/images/users/helene-engels.png')}}" alt="user photo">
                         </button>
                     </div>
                     <!-- Dropdown menu -->
@@ -317,10 +317,14 @@
                                     role="menuitem">Profile</a>
                             </li>
                             <li>
-                                <a href="#"
+                                <a href="{{ route('logout') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    role="menuitem">Sign out</a>
+                                    role="menuitem" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Sign out</a>
                             </li>
+                            
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </ul>
                     </div>
                 </div>

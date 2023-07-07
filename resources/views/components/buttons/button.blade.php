@@ -11,10 +11,10 @@ $themes = [
 ];
 @endphp
 @props([
-    'url' => '#',
+'disabled' => false,
 'theme' => 'default',
-'text'
+'text' => 'button'
 ])
-<a href="{{ $url }}" class="{{$themes[$theme]}}">
-    {{ $text ?? $slot }}
-</a>
+<button {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => $themes[$theme]]) !!}>
+    {{ $text }}
+</button>

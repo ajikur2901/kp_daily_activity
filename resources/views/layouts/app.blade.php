@@ -26,12 +26,16 @@ $hasContentScript = isset($contentScript);
     @if ($hasContentStyle)
     {{$contentStyle}}
     @endif
-    @if ($hasContentScriptHead)
-    {{$contentScriptHead}}
-    @endif
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js','resources/flowbit/flowbit.js'])
+    @vite([
+        'resources/css/app.css', 
+        'resources/js/app.js',
+        // 'resources/flowbit/flowbit.js'
+        ])
+        @if ($hasContentScriptHead)
+        {{$contentScriptHead}}
+        @endif
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {

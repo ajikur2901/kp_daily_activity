@@ -23,6 +23,16 @@ $breadcrumb = [
         </x-slot:buttons>
     </x-layouts.header>
     @livewireStyles
+@if ($error = session()->get('error'))
+    <div class="p-6">
+        <x-alerts.error :title="'Error'" :message="$error" />
+    </div>
+@endif
+@if ($success = session()->get('success'))
+    <div class="p-6">
+        <x-alerts.success :title="'Sukses'" :message="$success" />
+    </div>
+@endif
     <div class="m-6 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <livewire:user-table />
     </div>

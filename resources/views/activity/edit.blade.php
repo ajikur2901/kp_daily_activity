@@ -5,7 +5,7 @@ $breadcrumb = [
 'url' => '#'
 ],
 [
-'nama' => 'Create Activity',
+'nama' => 'Edit Activity',
 'url' => '#'
 ],
 ]
@@ -13,7 +13,7 @@ $breadcrumb = [
 <x-app-layout>
     <x-layouts.header>
         <x-slot:title>
-            Create Activity
+            Edit Activity
         </x-slot:title>
         <x-slot:breadcrumb>
             <x-layouts.breadcrumb :items="$breadcrumb" />
@@ -22,8 +22,7 @@ $breadcrumb = [
             <x-buttons.a :url=" route('activity.index')" :text="'Kembali'" :theme="'red'" />
         </x-slot:buttons>
     </x-layouts.header>
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 py-5">
-        <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg max-w-xl">
+    <div class=" p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         @if ($message = Session::get('error'))
         <div class="alert alert-warning">
             <p>{{ $message }}</p>
@@ -34,8 +33,9 @@ $breadcrumb = [
             <p>{{ $message }}</p>
         </div>
         @endif
-        <form method="POST" action="{{ route('activity.store') }}">
+        <form method="POST" action="{{ route('activity.update',$activity) }}">
             @csrf
+            @method('PATCH')
             <div class="mb-3">
                 @php
                 if($errors->has('title')){
@@ -45,7 +45,7 @@ $breadcrumb = [
                 }
                 @endphp
                 <x-forms.input-label for="title" :theme="$themeTitle" :value="'Judul'" />
-                <x-forms.text-input type="text" placeholder="title" name="title" value="{{ old('title') }}"
+                <x-forms.text-input type="text" placeholder="title" name="title" value="{{ $activity->title }}"
                     autocomplete="off" :theme="$themeTitle" />
                 @error('title')
                 <x-forms.input-error messages="{{ $message }}" />
@@ -58,10 +58,11 @@ $breadcrumb = [
                 }else{
                 $themeProjectId = "default";
                 }
+                $projectId = $activity->project_id;
                 @endphp
                 <x-forms.input-label for="project_id" :theme="$themeProjectId" :Value="'Project'" />
                 <x-forms.select name="project_id" :theme="$themeProjectId" 
-                    :items="$projects" :value="'$id'" :text="'nama'" :placeholder="'Pilih Project'"/>
+                    :items="$projects" :value="'$id'" :text="'nama'" :placeholder="'Pilih Project'" :selected="$projectId"/>
                 @error('project_id')
                 <x-forms.input-error messages="{{ $message }}"/>
                 @enderror
@@ -70,5 +71,4 @@ $breadcrumb = [
             <x-buttons.button type="submit" :text="'Simpan'" />
         </form>
     </div>
-</div>
 </x-app-layout>

@@ -20,6 +20,10 @@ class UserTable extends DataTableComponent
         return [
             Column::make("Id", "id")
                 ->sortable(),
+            Column::make("Action")
+                ->label(function ($row, $column) {
+                    return view('user.action', ['user' => $row]);
+                }),
             Column::make("Name", "name")
                 ->sortable(),
             Column::make("Email", "email")
